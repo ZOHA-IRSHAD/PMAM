@@ -1,0 +1,75 @@
+<h1 mat-dialog-title class="change-my-font align-me-to-center i-dont-want-to-be-huge">Sign Up</h1>
+<form class="registration-form" #f="ngForm" novalidate (ngSubmit)="save(f.value)">
+  <mat-list>
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">account_circle</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="text" placeholder="First Name" required>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true" color="primary">account_circle</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="text" placeholder="Last Name">
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true" color="primary">email</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="email" placeholder="Email" required>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">date_range</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput [matDatepicker]="picker" placeholder="Date of Birth" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">phone</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="text" placeholder="Phone Number" required>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">person_pin</mat-icon>
+      <mat-radio-group class="full-width">
+        <mat-radio-button value="Male" style="margin-right:70px;">Male</mat-radio-button>
+        <mat-radio-button value="Female">Female</mat-radio-button>
+      </mat-radio-group>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">location_on</mat-icon>
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Address" required></textarea>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">lock</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="password" placeholder="Password" required>
+      </mat-form-field>
+    </mat-list-item>
+
+    <mat-list-item class="change-my-font i-dont-want-to-be-huge">
+      <mat-icon matListIcon aria-hidden="true">vpn_key</mat-icon>
+      <mat-form-field class="full-width">
+        <input matInput type="password" placeholder="Confirm Password" required>
+      </mat-form-field>
+    </mat-list-item>
+  </mat-list>
+</form>
+
+<div mat-dialog-actions class="align-me-to-center">
+  <button mat-raised-button color="primary" (click)="onNoClick()" [disabled]="!f.valid">Sign Up</button>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+</div>

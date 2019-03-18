@@ -1,0 +1,40 @@
+
+.basic-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  } 
+ 
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  font-family:"Quicksand";
+  font-size:15px;
+  font-weight: bolder;
+
+}
+.example-full-width {
+  width: 100%;
+  font-family:"Quicksand";
+  font-size:15px;
+  font-weight: bolder;
+
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+} 
+
+mat-card-content{
+   overflow:auto;
+   height:540px;
+   text-align: left;
+   width:550px;
+}
+
+.button-row{
+  margin-left: 20px;
+}

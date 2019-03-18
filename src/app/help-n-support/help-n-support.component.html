@@ -1,0 +1,31 @@
+<div class="mat-app-background basic-container" style="min-height:550px;">
+  <mat-card>
+    <simple-notifications [options]="options"></simple-notifications>
+    <form [formGroup]="helpNsupportForm" class="helpNsupport-form" novalidate (ngSubmit)="onSend(helpNsupportForm)">
+      <mat-form-field class="main-section" floatLabel=always>
+        <mat-select placeholder="Select Issue" [(ngModel)]="selectedValue" formControlName="issue_name" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let issue of issues" [value]="issue.issueOption">
+            {{issue.issueOption}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="helpNsupportForm.get('issue_name').hasError('required')">Please choose an issue</mat-error>
+      </mat-form-field>
+
+      <!-- <p> Selected value: {{selectedValue}} </p><br> -->
+      <mat-form-field class="main-section" floatLabel=always>
+        <textarea matInput placeholder="Issue Description" formControlName="issue_description" required></textarea>
+        <mat-error *ngIf="helpNsupportForm.get('issue_description').hasError('required')">Please choose an issue</mat-error>
+      </mat-form-field>
+      <br><br>
+      <div class="button-row">
+        <button mat-raised-button color="primary" [disabled]="!helpNsupportForm.valid">Send</button>&nbsp;&nbsp;
+        <a routerLink="/home/myAssets">
+      <button mat-raised-button color="accent">Cancel</button>
+      </a>
+      </div>
+      <!--end of button-row-->
+    </form>
+  </mat-card>
+</div>
+<!--end of basic-container-->

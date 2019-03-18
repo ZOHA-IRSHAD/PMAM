@@ -1,0 +1,326 @@
+<form class="advanced-form" [formGroup]="advancedForm" novalidate (ngSubmit)="onSubmitAdvanced(advancedForm)" *ngIf="data.option=='Images'">
+  <mat-form-field formArrayName="keywords" class="example-full-width" *ngFor="let keyword of keywords.controls;let idx=index">
+    <input matInput formControlName='{{idx}}' placeholder="Keywords & Titles" type="text">
+  </mat-form-field>
+  <button type="button" mat-icon-button color="primary" (click)=" addField('keywords')"><mat-icon color="warn">add</mat-icon></button>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Location" formControlName="location" multiple>
+      <!-- <mat-select-trigger> 
+      {{location.value ? location.value[0] : ''}}
+      <span *ngIf="location.value?.length > 1" class="example-additional-selection">
+        (+{{location.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>      -->
+      <mat-option *ngFor="let loc of Location" [value]="loc">{{loc}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Type" formControlName="image_type" multiple>
+      <!-- <mat-select-trigger>
+      {{typeCtrl.value ? typeCtrl.value[0] : ''}}
+      <span *ngIf="typeCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{typeCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let type of Type" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Gender" formControlName="gender">
+      <!-- <mat-select-trigger>
+      {{genderCtrl.value ? genderCtrl.value[0] : ''}}
+      <span *ngIf="genderCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{genderCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let gen of Gender" [value]="gen">{{gen}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Date" formControlName="daterange">
+      <!-- <mat-select-trigger>
+      {{orientationCtrl.value ? orientationCtrl.value[0] : ''}}
+      <span *ngIf="orientationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{orientationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let date of Date" [value]="date">{{date}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Orientation" formControlName="orientation">
+      <!-- <mat-select-trigger>
+      {{orientationCtrl.value ? orientationCtrl.value[0] : ''}}
+      <span *ngIf="orientationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{orientationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let orient of Orientation" [value]="orient">{{orient}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Size" formControlName="sizerange">
+      <!-- <mat-select-trigger>
+      {{sizeCtrl.value ? sizeCtrl.value[0] : ''}}
+      <span *ngIf="sizeCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{sizeCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let size of Size" [value]="size">{{size}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="button-row">
+    <button type="submit" mat-raised-button color="primary">Search</button>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+  <!--end of button-row-->
+</form>
+<!--end of image-form-->
+
+<form class="advanced-form" [formGroup]="advancedForm" novalidate (ngSubmit)="onSubmitAdvanced(advancedForm)" *ngIf="data.option=='Videos'">
+  <mat-form-field formArrayName="keywords" class="example-full-width" *ngFor="let keyword of keywords.controls;let idx=index">
+    <input matInput formControlName='{{idx}}' placeholder="Keywords & Titles" type="text">
+  </mat-form-field>
+  <button type="button" mat-icon-button color="primary" (click)=" addField('keywords')"><mat-icon color="warn">add</mat-icon></button>
+
+  <mat-form-field formArrayName="includes" class="example-full-width" *ngFor="let incl of includes.controls;let i=index">
+    <input matInput placeholder="Include these words" type="text" formControlName='{{i}}'>
+  </mat-form-field>
+  <button type="button" mat-icon-button color="primary" (click)=" addField('includes')"><mat-icon color="warn">add</mat-icon></button>
+
+  <mat-form-field formArrayName="excludes" class="example-full-width" *ngFor="let excl of excludes.controls;let j=index">
+    <input matInput placeholder="Exclude these words" type="text" formControlName='{{j}}'>
+  </mat-form-field>
+  <button type="button" mat-icon-button color="primary" (click)=" addField('excludes')"><mat-icon color="warn">add</mat-icon></button>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Location" formControlName="location" multiple>
+      <!-- <mat-select-trigger> 
+      {{location.value ? location.value[0] : ''}}
+      <span *ngIf="location.value?.length > 1" class="example-additional-selection">
+        (+{{location.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>      -->
+      <mat-option *ngFor="let loc of Location" [value]="loc">{{loc}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Language" formControlName="language">
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let lang of Language" [value]="lang">{{lang}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Duration" formControlName="duration">
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let dur of Duration" [value]="dur">{{dur}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Date" formControlName="daterange">
+      <!-- <mat-select-trigger>
+      {{orientationCtrl.value ? orientationCtrl.value[0] : ''}}
+      <span *ngIf="orientationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{orientationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let date of Date" [value]="date">{{date}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Quality" formControlName="video_quality">
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let quality of Quality" [value]="quality">{{quality}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput formControlName="subtitles" placeholder="Subtitles" type="text">
+  </mat-form-field>
+
+  <div class="button-row">
+    <button mat-raised-button color="primary">Search</button>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+  <!--end of button-row-->
+</form>
+<!--end of video-form-->
+
+<form class="advanced-form" [formGroup]="advancedForm" novalidate (ngSubmit)="onSubmitAdvanced(advancedForm)" *ngIf="data.option=='Audios'">
+  <mat-form-field formArrayName="keywords" class="example-full-width" *ngFor="let keyword of keywords.controls;let idx=index">
+    <input matInput formControlName='{{idx}}' placeholder="Keywords & Titles" type="text">
+  </mat-form-field>
+  <button type="button" mat-icon-button color="primary" (click)=" addField('keywords')"><mat-icon color="warn">add</mat-icon></button>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Artist" formControlName="artist" multiple>
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let artists of Artist" [value]="artists">{{artists}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Mood" formControlName="mood" multiple>
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let moods of Mood" [value]="moods">{{moods}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Genre" formControlName="genre" multiple>
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let gen of Genre" [value]="gen">{{gen}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Tempo" formControlName="tempo">
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let temp of Tempo" [value]="temp">{{temp}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Date" formControlName="daterange">
+      <!-- <mat-select-trigger>
+      {{orientationCtrl.value ? orientationCtrl.value[0] : ''}}
+      <span *ngIf="orientationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{orientationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option *ngFor="let date of Date" [value]="date">{{date}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Range of release year" formControlName="year" multiple #years>
+      <!-- <mat-select-trigger>
+      {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+      <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+    </mat-select-trigger>    -->
+      <mat-option #yrs *ngFor="let yr of Year" [value]="yr" [disabled]="years.selected.length > 1 && !yrs.selected">{{yr}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button mat-raised-button color="primary">Search</button>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+  <!--end of button-row-->
+</form>
+<!--end of audio-form-->
+
+<form class="example-form" *ngIf="data.option=='Docs'">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Keywords & Titles" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Document Name" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="All of these words" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Any of these words" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Exact Phrases" type="text">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="None of these words" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Document Type" [formControl]="locationCtrl" multiple>
+      <mat-select-trigger>
+        {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+        <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let location of Location" [value]="location">{{location}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Size" [formControl]="locationCtrl" multiple>
+      <mat-select-trigger>
+        {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+        <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let location of Location" [value]="location">{{location}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Date" [formControl]="locationCtrl" multiple>
+      <mat-select-trigger>
+        {{locationCtrl.value ? locationCtrl.value[0] : ''}}
+        <span *ngIf="locationCtrl.value?.length > 1" class="example-additional-selection">
+        (+{{locationCtrl.value.length - 1}} others)
+      </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let location of Location" [value]="location">{{location}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="button-row">
+    <button mat-raised-button color="primary">Search</button>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+  <!--end of button-row-->
+</form>
+<!--end of docs-form-->

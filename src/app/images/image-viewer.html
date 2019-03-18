@@ -1,0 +1,5 @@
+<div class="container" style="height:400px;width:400px">
+    <ngx-image-viewer [src]="images" [(index)]="ind" [config]="{customBtns:[{name: 'cancel', icon: 'fa fa-close'},{name: 'download', icon: 'fa fa-download'}]}"
+        (customEvent)="handleEvent($event)">
+    </ngx-image-viewer>
+</div>

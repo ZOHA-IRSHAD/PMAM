@@ -1,0 +1,205 @@
+<div class="mat-app-background basic-container" style="min-height:530px;" *ngIf="trashs.length >= 1 || bins.length >= 1">
+  <simple-notifications [options]="options"></simple-notifications>
+  <div class="main-section" fxLayout="row" fxLayout.sm="row" fxLayout.xs="row" fxLayoutWrap>
+        <div class="search-section">
+      <mat-form-field class="example-full-width" color="primary" *ngIf=viewModule>
+        <input matInput placeholder="Search Trash" type="text" [(ngModel)]="searchText">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" color="primary" *ngIf=!viewModule>
+        <input matInput placeholder="Search Trash" type="text" (keyup)="applyFilter($event.target.value)">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+    </div>  
+    <div class="button-section">
+      <button mat-icon-button color="primary" (click)="changeView()" matTooltip="View" matTooltipPosition="below">
+    <mat-icon aria-hidden="true" *ngIf=viewModule>view_module</mat-icon>
+         <mat-icon aria-hidden="true" *ngIf=!viewModule>view_list</mat-icon> 
+  </button>
+    </div>
+  </div>
+  <!-- start of module view  (assets)-->
+  <div class="trash-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="1%" fxLayoutWrap *ngIf=viewModule>
+<h3 *ngIf="(trashs | searchByAsset: searchText).length === 0">
+ <span style="color:black">No Results Matches</span> 
+</h3>
+    <mat-card class="module-view" *ngFor="let trash of trashs | searchByAsset: searchText ;let i =index">
+      <mat-card-header>
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+        <mat-card-title>{{trash.title}}</mat-card-title>
+        <!--  <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <!-- <mat-card-content>
+        <p>
+          {{trash.title}}
+        </p>
+      </mat-card-content> -->
+      <mat-card-actions>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="restoreAsset(trash.uri,i)">
+    <mat-icon>restore_from_trash</mat-icon>
+    <span>Restore</span>
+  </button>
+          <button mat-menu-item (click)="permanentRemoveAsset(trash.uri,i)"> 
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+
+          <button mat-menu-item (click)="openDetailsAsset(trash)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- end of module-view  (assets)-->
+
+    <!-- start of module view (folders)  -->
+      <span class="custom-folder" *ngIf="bins.length >= 1 && viewModule">Folders</span>
+  <div class="new-folder-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="1%" fxLayoutWrap *ngIf=viewModule>
+<h3 *ngIf="(bins | searchByFolder: searchText).length === 0 && bins.length >= 1">
+ <span style="color:black">No Results Matches</span>
+</h3>
+    <mat-card class="module-view-folder" *ngFor="let bin of bins | searchByFolder: searchText;let m=index">
+      <mat-card-header>
+        <mat-card-title>{{bin.folder_name | replace}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="restoreFolder(bin.folder_name,m)">
+    <mat-icon>restore_from_trash</mat-icon>
+    <span>Restore</span>
+  </button>
+          <button mat-menu-item (click)="permanentRemoveFolder(bin.folder_name,m)"> 
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+
+          <button mat-menu-item (click)="openDetailsFolder(bin)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- end of module-view (folders)  -->
+
+  <!-- start of list-view (assets) -->
+  <div class="trash-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" *ngIf=!viewModule>
+    <mat-table class="list-view" [dataSource]="dataSource" *ngIf="trashs.length >= 1">
+
+   <ng-container matColumnDef="results">
+        <mat-header-cell *matHeaderCellDef>
+          <h3 style="text-align:center;color:black">No Results Matches for
+            <span style="color:red">"{{dataSource.filter}}"</span>
+          </h3>          
+        </mat-header-cell>
+        <mat-cell *matCellDef="">
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let trash;let j=index"> {{trash.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let trash;let j=index">
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="restoreAsset(trash.uri,j)">
+    <mat-icon>restore_from_trash</mat-icon>
+    <span>Restore</span>
+  </button>
+            <button mat-menu-item (click)="permanentRemoveAsset(trash.uri,j)"> 
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+
+            <button mat-menu-item (click)="openDetailsAsset(trash)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+  </div>
+  <!-- end of list-view (assets) -->
+
+    <!-- start of list-view (folders) -->
+  <div class="trash-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" *ngIf=!viewModule>
+      <span *ngIf="bins.length >= 1">Folders</span>
+    <mat-table class="list-view" [dataSource]="dataSourceFolder" *ngIf="bins.length >= 1">
+
+   <ng-container matColumnDef="results">
+        <mat-header-cell *matHeaderCellDef>
+          <h3 style="text-align:center;color:black">No Results Matches for
+            <span style="color:red">"{{dataSourceFolder.filter}}"</span>
+          </h3>          
+        </mat-header-cell>
+        <mat-cell *matCellDef="">
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="folder_name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let bin;let n=index"> {{bin.folder_name | replace}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let bin;let n=index">
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="restoreFolder(bin.folder_name,n)">
+    <mat-icon>restore_from_trash</mat-icon>
+    <span>Restore</span>
+  </button>
+            <button mat-menu-item (click)="permanentRemoveFolder(bin.folder_name,n)"> 
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+
+            <button mat-menu-item (click)="openDetailsFolder(bin)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColFolder"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColFolder;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+  </div>
+  <!-- end of list-view (folders) -->
+
+</div>
+<div class="mat-app-background basic-container-sub" style="min-height:530px;" *ngIf="trashs.length == 0 && bins.length == 0">
+  <mat-card>
+    <!-- <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title></mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header> -->
+    <img mat-card-image class="empty-folder" src="assets/ic_folder_black_24px.svg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p>
+        Trash is Empty
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

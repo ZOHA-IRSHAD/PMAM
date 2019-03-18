@@ -1,0 +1,412 @@
+<div class="mat-app-background basic-container" style="min-height:530px;" *ngIf="audios.length >= 1 || folders.length >= 1">
+  <simple-notifications [options]="options"></simple-notifications>
+  <div class="main-section" fxLayout="row" fxLayout.sm="row" fxLayout.xs="row" fxLayoutWrap>
+     <div class="search-section"> 
+      <mat-form-field class="example-full-width" color="primary" *ngIf=viewModule>
+        <input matInput placeholder="Search Audios & Folders" type="text" [(ngModel)]="searchText">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+    <!-- </div> -->
+    <!-- <div fxLayout="row" fxLayout.sm="row" fxLayout.xs="row" *ngIf=!viewModule> -->
+      <mat-form-field class="example-full-width" color="primary" *ngIf=!viewModule>
+        <input matInput placeholder="Search Audios & Folders" type="text" (keyup)="applyFilter($event.target.value)">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+     </div> 
+     <div class="button-section"> 
+    <button mat-icon-button color="primary" (click)="copyCutMultipleAssets('cut')" matTooltip="Cut" matTooltipPosition="below" [disabled]="cutDisable">
+    <mat-icon aria-label="true">move_to_inbox</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="copyCutMultipleAssets('copy')" matTooltip="Copy" matTooltipPosition="below" [disabled]="copyDisable">
+ <mat-icon aria-hidden="true">content_copy</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="checkType()" matTooltip="Paste" matTooltipPosition="below" [disabled]="pasteDisable">
+ <mat-icon aria-hidden="true">content_paste</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="deleteMultipleAssets()" matTooltip="Delete" matTooltipPosition="below">
+   <mat-icon aria-hidden="true">delete</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="downloadMultipleAssets()" matTooltip="Download" matTooltipPosition="below">
+    <mat-icon aria-hidden="true">file_download</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="changeView()" matTooltip="View" matTooltipPosition="below">
+    <mat-icon aria-hidden="true" *ngIf=viewModule>view_module</mat-icon>
+         <mat-icon aria-hidden="true" *ngIf=!viewModule>view_list</mat-icon> 
+  </button>
+     </div> 
+  </div>
+  <div class="date-section" *ngFor="let item of audiosCopy | groupBy : 'uploaded_date_string';let i = index">
+    <span *ngIf=viewModule>{{item.key}}</span>
+    <!-- start of module-view  -->
+    <div class="audio-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap *ngIf=viewModule>
+      <h3 *ngIf="(item.value | searchByAsset: searchText).length === 0">
+        <span style="color:black">No Results Matches</span>
+      </h3>
+      <mat-card class="module-view" *ngFor="let audio of item.value | searchByAsset: searchText ;let j=index">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null"
+              [checked]="checkArray[i].value[j].isChecked" [(ngModel)]="checkArray[i].value[j].isChecked" (ngModelChange)="checkboxArray(audio)">
+            </mat-checkbox>
+          </mat-card-title>
+        </mat-card-header>
+        <!-- <mat-card-content> -->
+        <vg-player>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+            <!-- <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display> -->
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+            <vg-mute></vg-mute>
+            <vg-playback-button></vg-playback-button>
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <audio #media [vgMedia]="media" id="{{j}}" preload="auto">
+            <source src="{{audio.asset_link}}" type="{{audio.asset_type}}">
+          </audio>
+        </vg-player>
+
+        <!-- </mat-card-content> -->
+        <mat-card-actions>
+          <span>{{audio.title}}</span>
+          <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,j)" *ngIf="audio.favourite_status  == 'not-yet'">favorite_border</mat-icon>
+          <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,j)" *ngIf="audio.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+            <button mat-menu-item (click)="downloadAudio(audio.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+            <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+            <!--end of mat-menu-->
+            <button mat-menu-item (click)="assetCopyCut('cut',audio.uri,audio.asset_link)">
+    <mat-icon>move_to_inbox</mat-icon>
+    <span>Cut</span>
+  </button>
+            <button mat-menu-item (click)="assetCopyCut('copy',audio.uri,audio.asset_link)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy</span>
+  </button>
+            <button mat-menu-item (click)="removeFromBucket(audio.uri,j)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+            <button mat-menu-item (click)="openRenameDialog(audio)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+            <button mat-menu-item (click)="openDetails(audio)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <!--end of audio-section-->
+  </div>
+  <!--end of date-section-->
+  <!-- end of module-view  -->
+
+  <!--start of new-folder-section (module-view) -->
+  <br>
+  <span class="custom-folder" *ngIf="folders.length >= 1 && viewModule">Custom Folders</span>
+
+  <div class="new-folder-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap
+    *ngIf=viewModule>
+    <h3 *ngIf="(folders | searchByFolder: searchText).length === 0 && folders.length >= 1">
+      <span style="color:black">No Results Matches</span>
+    </h3>
+    <mat-card class="module-view-folder" *ngFor="let folder of folders | searchByFolder: searchText;let j=index">
+      <mat-card-header>
+        <mat-card-title>
+          {{folder.folder_name | replace}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content (click)="newFolder(folder.folder_name)">
+        <img src="assets/ic_folder_black_24px.svg" alt="Photo of a Shiba Inu">
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-chip-list>
+          <mat-chip color="primary" selected="true">{{folder.count}}</mat-chip>
+        </mat-chip-list>
+        <mat-menu #menu="matMenu">
+          <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+          <button mat-menu-item (click)="folderCopyCut('cut',folder.folder_name)">
+    <mat-icon>move_to_inbox</mat-icon>
+    <span>Cut</span>
+  </button>
+          <button mat-menu-item (click)="folderCopyCut('copy',folder.folder_name)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy</span>
+  </button>
+          <button mat-menu-item [disabled]="pasteDisable" (click)="assetPaste(folder.folder_name)">
+    <mat-icon>content_paste</mat-icon>
+    <span>Paste</span>
+  </button>
+          <button mat-menu-item (click)="deleteFolder(folder.folder_name,j)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+          <button mat-menu-item (click)="openRenameFolder(folder.folder_name)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+          <button mat-menu-item (click)="openDetailsFolder(folder)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- end of new-folder-creation  -->
+
+
+  <!-- start of list-view  -->
+  <div class="audio-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" *ngIf=!viewModule>
+    <mat-table class="list-view" [dataSource]="dataSource" matSort matSortActive="uploaded_date_string" matSortDirection="desc"
+      matSortDisableClear *ngIf="audios.length >= 1">
+
+      <ng-container matColumnDef="results">
+        <mat-header-cell *matHeaderCellDef>
+          <h3 style="text-align:center;color:black">No Results Matches for
+            <span style="color:red">"{{dataSource.filter}}"</span>
+          </h3>
+        </mat-header-cell>
+        <mat-cell *matCellDef="">
+        </mat-cell>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let audio;let k=index">
+          <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null"
+            [checked]="checkListArray[k].isChecked" [(ngModel)]="checkListArray[k].isChecked" (ngModelChange)="checkboxArray(audio)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let audio; let k=index"> {{audio.title}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="uploaded_date_string">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+        <mat-cell *matCellDef="let audio; let k=index"> {{audio.uploaded_date_string}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="asset_type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+        <mat-cell *matCellDef="let audio; let k=index"> {{audio.asset_type}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="size">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Size </mat-header-cell>
+        <mat-cell *matCellDef="let audio; let k=index"> {{audio.size}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let audio; let k=index">
+          <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,k)" *ngIf="audio.favourite_status == 'not-yet'">favorite_border</mat-icon>
+          <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,k)" *ngIf="audio.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openAudio(audio,audio.uri,k)">
+              <mat-icon>open_with</mat-icon>
+              <span>Open</span>
+            </button>
+            <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+            <button mat-menu-item (click)="downloadAudio(audio.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+            <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+            <!--end of mat-menu-->
+            <button mat-menu-item (click)="assetCopyCut('cut',audio.uri,audio.asset_link)">
+    <mat-icon>move_to_inbox</mat-icon>
+    <span>Cut</span>
+  </button>
+            <button mat-menu-item (click)="assetCopyCut('copy',audio.uri,audio.asset_link)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy</span>
+  </button>
+
+            <button mat-menu-item (click)="removeFromBucket(audio.uri,k)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+            <button mat-menu-item (click)="openRenameDialog(audio)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+            <button mat-menu-item (click)="openDetails(audio)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+  </div>
+  <!--end of list view-->
+
+
+  <!-- start of new-folder-create (list-view)  -->
+  <div class="new-folder-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" *ngIf=!viewModule>
+    <span class="custom-folder" *ngIf="folders.length >= 1">Custom Folders</span>
+    <mat-table class="list-view" [dataSource]="dataSourceFolder" *ngIf="folders.length >= 1">
+
+      <ng-container matColumnDef="results">
+        <mat-header-cell *matHeaderCellDef>
+          <h3 style="text-align:center;color:black">No Results Matches for
+            <span style="color:red">"{{dataSourceFolder.filter}}"</span>
+          </h3>
+        </mat-header-cell>
+        <mat-cell *matCellDef="">
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="icon">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let folder; let k=index">
+          <mat-icon class="icon">folder</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="folder_name">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let folder; let k=index"> {{folder.folder_name | replace}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let folder; let k=index">
+          <!-- <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,k)" *ngIf="audio.favourite_status == 'not-yet'">favorite_border</mat-icon>
+          <mat-icon (click)="getAudioDetails(audio.uri,audio.favourite_status,k)" *ngIf="audio.favourite_status  == 'yes'" color="warn">favorite</mat-icon> -->
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="newFolder(folder.folder_name)">
+    <mat-icon>open_with</mat-icon>
+    <span>Open</span>
+  </button>
+            <button mat-menu-item (click)="downloadAudio(audio.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+            <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+            <!--end of mat-menu-->
+            <button mat-menu-item (click)="folderCopyCut('cut',folder.folder_name)">
+    <mat-icon>move_to_inbox</mat-icon>
+    <span>Cut</span>
+  </button>
+            <button mat-menu-item (click)="folderCopyCut('copy',folder.folder_name)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy</span>
+  </button>
+            <button mat-menu-item [disabled]="pasteDisable" (click)="assetPaste(folder.folder_name)">
+    <mat-icon>content_paste</mat-icon>
+    <span>Paste</span>
+  </button>
+            <button mat-menu-item (click)="deleteFolder(folder.folder_name,k)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+            <button mat-menu-item (click)="openRenameFolder(folder.folder_name)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+            <button mat-menu-item (click)="openDetailsFolder(folder)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColFolder"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColFolder;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+  </div>
+  <!--end of new-folder-creation (list view)-->
+</div>
+<!--end of basic-container-->
+<div class="mat-app-background basic-container-sub" style="min-height:530px;" *ngIf="audios.length == 0 && folders.length == 0">
+  <div class="button-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+    <button mat-icon-button color="primary" (click)="checkType()" matTooltip="Paste" matTooltipPosition="below" [disabled]="pasteDisable">
+    <mat-icon aria-hidden="true">content_paste</mat-icon>
+  </button>
+  </div>
+  <div class="empty-card">
+    <mat-card>
+      <img mat-card-image class="empty-folder" src="assets/ic_folder_black_24px.svg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          No Audios in this folder
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<!-- | orderBy: {property: column, direction: direction} -->
+<!--[matMenuTriggerFor]="downloadMenu"   -->

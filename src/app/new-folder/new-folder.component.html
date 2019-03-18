@@ -1,0 +1,262 @@
+<div class="mat-app-background basic-container" style="min-height:530px;" *ngIf="assets.length >= 1">
+  <div class="main-section" fxLayout="row" fxLayout.sm="row" fxLayout.xs="row" fxLayoutWrap>
+    <div class="search-section">
+      <mat-form-field class="example-full-width" color="primary" *ngIf=viewModule>
+        <input matInput placeholder="Search Assets" type="text" [(ngModel)]="searchText">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" color="primary" *ngIf=!viewModule>
+        <input matInput placeholder="Search Assets" type="text" (keyup)="applyFilter($event.target.value)">
+        <mat-icon class="cursor" matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="button-section">
+      <button mat-icon-button color="primary" (click)="copyCutMultipleAssets('cut')" matTooltip="Cut" matTooltipPosition="below" [disabled]="cutDisable">
+    <mat-icon aria-label="true">move_to_inbox</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="copyCutMultipleAssets('copy')" matTooltip="Copy" matTooltipPosition="below" [disabled]="copyDisable">
+ <mat-icon aria-hidden="true">content_copy</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="assetPaste()" matTooltip="Paste" matTooltipPosition="below" [disabled]="pasteDisable" [disabled]="pasteDisable">
+    <mat-icon aria-label="true">content_paste</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="deleteMultipleAssets()" matTooltip="Delete" matTooltipPosition="below">
+   <mat-icon aria-hidden="true">delete</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="downloadMultipleAssets()" matTooltip="Download" matTooltipPosition="below">
+    <mat-icon aria-hidden="true">file_download</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="changeView()" matTooltip="View" matTooltipPosition="below">
+    <mat-icon aria-hidden="true" *ngIf=viewModule>view_module</mat-icon>
+         <mat-icon aria-hidden="true" *ngIf=!viewModule>view_list</mat-icon> 
+  </button>
+    </div>
+  </div>
+  <!-- start of module-view  -->
+  <div class="generic-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap *ngIf=viewModule>
+    <h3 *ngIf="(assets | searchByAsset: searchText).length === 0">
+      <span style="color:black">No Results Matches</span>
+    </h3>
+    <mat-card class="module-view" *ngFor="let asset of assetsCopy | searchByAsset: searchText;let i = index">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null"
+            [checked]="selection.isSelected(select)" [(ngModel)]="checkArray[i].isChecked" (ngModelChange)="checkboxArray(asset)">
+          </mat-checkbox>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="asset.asset_type == 'video/mp4'">
+        <vg-player>
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+            <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+            <!-- <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display> -->
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+            <vg-track-selector></vg-track-selector>
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            <vg-playback-button></vg-playback-button>
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+
+          <video [vgMedia]="media" #media id="{{i}}" preload="auto" crossorigin>
+            <source src="{{asset.asset_link}}" type="{{asset.asset_type}}">
+            <track kind="subtitles" label="Eng" src="http://static.videogular.com/assets/subs/pale-blue-dot.vtt" srclang="en" default>
+          </video>
+        </vg-player>
+      </mat-card-content>
+
+      <vg-player style="height:40px" *ngIf="asset.asset_type == 'audio/mp3'">
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+          <!-- <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display> -->
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+          <vg-mute></vg-mute>
+          <vg-playback-button></vg-playback-button>
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <audio #media [vgMedia]="media" id="{{i}}" preload="auto">
+          <source src="{{asset.asset_link}}" type="{{asset.asset_type}}">
+        </audio>
+      </vg-player>
+
+      <!-- </mat-card-content>  -->
+      <img mat-card-image src="{{asset.asset_link}}" (click)="openViewer(asset,i)" *ngIf="asset.asset_type == 'image/png' || asset.asset_type == 'image/jpeg' || asset.asset_type == 'image/jpg' "
+        style="height:200px;" />
+      <mat-card-actions>
+        <span>{{asset.title}}</span>
+        <mat-icon (click)="getAssetDetails(asset.uri,asset.favourite_status,i)" *ngIf="asset.favourite_status  == 'not-yet'">favorite_border</mat-icon>
+        <mat-icon (click)="getAssetDetails(asset.uri,asset.favourite_status,i)" *ngIf="asset.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+          <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+          <button mat-menu-item (click)="downloadResult(asset.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+          <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+          <!--end of mat-menu-->
+          <button mat-menu-item (click)="assetCopyCut('cut',asset.uri,asset.asset_link)">
+    <mat-icon>move_to_inbox</mat-icon>
+    <span>Cut</span>
+  </button>
+          <button mat-menu-item (click)="assetCopyCut('copy',asset.uri,asset.asset_link)">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy</span>
+  </button>
+          <button mat-menu-item (click)="removeResult(asset.uri)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+          <button mat-menu-item (click)="openRenameDialog(asset)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+          <button mat-menu-item (click)="openDetails(asset)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- end of module-view -->
+
+  <!-- start of list-view -->
+  <div class="generic-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap
+    *ngIf=!viewModule>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="results">
+        <mat-header-cell *matHeaderCellDef>
+          <h3 style="text-align:center;color:black">No Results Matches for
+            <span style="color:red">"{{dataSource.filter}}"</span>
+          </h3>
+        </mat-header-cell>
+        <mat-cell *matCellDef="">
+        </mat-cell>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let result;let j=index">
+          <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null"
+            [checked]="selection.isSelected(select)" [(ngModel)]="checkArray[j].isChecked" (ngModelChange)="checkboxArray(result)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="asset_type">
+        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.asset_type}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="size">
+        <mat-header-cell *matHeaderCellDef> Size </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.size}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index">
+          <mat-icon (click)="getAssetDetails(result.uri,result.favourite_status)" *ngIf="result.favourite_status == 'not-yet'">favorite_border</mat-icon>
+          <mat-icon (click)="getAssetDetails(result.uri,result.favourite_status)" *ngIf="result.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openAsset(result.asset_type,result,result.uri,j)">
+              <mat-icon>open_with</mat-icon>
+              <span>Open</span>
+            </button>
+            <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+            <button mat-menu-item (click)="downloadResult(result.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+            <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+            <!--end of mat-menu-->
+            <button mat-menu-item (click)="removeResult(result.uri)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+            <button mat-menu-item (click)="openRenameDialog(result)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+            <button mat-menu-item (click)="openDetails(result)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+
+  </div>
+  <!-- end of list-view  -->
+</div>
+
+<!-- <mat-card *ngFor="let asset of assets">{{asset.title}}</mat-card> -->
+<div class="mat-app-background basic-container-sub" style="min-height:530px;" *ngIf="assets.length == 0">
+  <div class="button-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+     <button mat-icon-button color="primary" (click)="assetPaste()" matTooltip="Paste" matTooltipPosition="below" [disabled]="pasteDisable">
+    <mat-icon aria-hidden="true">content_paste</mat-icon>
+  </button> 
+  </div>
+  <div class="empty-card">
+    <mat-card>
+      <img mat-card-image class="empty-folder" src="assets/ic_folder_black_24px.svg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          No Assets in this folder
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

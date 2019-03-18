@@ -1,0 +1,220 @@
+<div class="mat-app-background basic-container" style="min-height:550px;">
+    <simple-notifications [options]="options"></simple-notifications>
+    <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+
+        <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 15">
+            <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+                position="end">
+                <!-- For Docs  -->
+                <mat-nav-list>
+                    <form class="example-form" [formGroup]="assetsForm" novalidate (ngSubmit)="onSubmit(assetsForm)" *ngIf=docs>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Title" type="text" formControlName="title">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field formArrayName="keywords" class="example-full-width" floatLabel=always *ngFor="let keyword of keywords.controls;let idx=index">
+                                <input matInput placeholder="Keyword" type="text" formControlName='{{idx}}'>
+                            </mat-form-field>
+                            <button type="button" mat-icon-button color="primary" (click)=" addField()"><mat-icon color="warn">add</mat-icon>
+        </button>
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Document Type" type="text" formControlName="asset_type">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Size (in MB)" type="text" formControlName="size">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <div class="button-row">
+                            <button mat-raised-button type="submit" color="primary" (click)="snav.toggle()">Save</button>
+                            <button mat-raised-button type="button" color="accent" (click)="snav.toggle()">Cancel</button>
+                        </div>
+                        <!--end of button-row-->
+                    </form>
+                </mat-nav-list>
+
+                <!-- For Images  -->
+                <mat-nav-list>
+                    <form class="example-form" [formGroup]="assetsForm" novalidate (ngSubmit)="onSubmit(assetsForm)" *ngIf=image>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Title" type="text" formControlName="title">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field formArrayName="keywords" class="example-full-width" floatLabel=always *ngFor="let keyword of keywords.controls;let idx=index">
+                                <input matInput placeholder="Keyword" type="text" formControlName='{{idx}}'>
+                            </mat-form-field>
+                            <button type="button" mat-icon-button color="primary" (click)=" addField(idx)" matTooltip="Add more keyword!" matTooltipPosition="above"><mat-icon color="warn">add</mat-icon></button>
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Loaction" type="text" formControlName="location">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Type" type="text" formControlName="asset_type">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <mat-select placeholder="Gender" formControlName="gender" multiple>
+                                    <mat-option *ngFor="let genders of Gender" [value]="genders">{{genders}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <!-- <mat-list-item>
+          <mat-form-field  class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Date" type="text" formControlName="uploaded_date">
+          </mat-form-field>  
+      </mat-list-item>   -->
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <mat-select placeholder="Orientation" formControlName="orientation">
+                                    <mat-option *ngFor="let orient of Orientation" [value]="orient">{{orient}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Size (in MB)" type="text" formControlName="size">
+                            </mat-form-field>
+                        </mat-list-item>
+
+                        <div class="button-row">
+                            <button mat-raised-button type="submit" color="primary" (click)="snav.toggle()">Save</button>
+                            <button mat-raised-button type="button" color="accent" (click)="snav.toggle()">Cancel</button>
+                        </div>
+                        <!--end of button-row-->
+                    </form>
+                </mat-nav-list>
+
+                <!-- For Audios  -->
+                <mat-nav-list>
+                    <form class="example-form" [formGroup]="assetsForm" novalidate (ngSubmit)="onSubmit(assetsForm)" *ngIf=audio>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Title" type="text" formControlName="title">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field formArrayName="keywords" class="example-full-width" floatLabel=always *ngFor="let keyword of keywords.controls;let idx=index">
+                                <input matInput placeholder="Keyword" type="text" formControlName='{{idx}}'>
+                            </mat-form-field>
+                            <button type="button" mat-icon-button color="primary" (click)=" addField()" matTooltip="Add more keyword!" matTooltipPosition="above"><mat-icon color="warn">add</mat-icon></button>
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Artist" type="text" formControlName="artist">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <mat-select placeholder="Mood" formControlName="mood">
+                                    <mat-option *ngFor="let moods of Mood" [value]="moods">{{moods}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <mat-select placeholder="Genre" formControlName="genre">
+                                    <mat-option *ngFor="let gen of Genre" [value]="gen">{{gen}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <mat-select placeholder="Tempo" formControlName="tempo">
+                                    <mat-option *ngFor="let temp of Tempo" [value]="temp">{{temp}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Year" type="text" formControlName="release_year">
+                            </mat-form-field>
+                        </mat-list-item>
+
+                        <div class="button-row">
+                            <button mat-raised-button type="submit" color="primary" (click)="snav.toggle()">Save</button>
+                            <button mat-raised-button type="button" color="accent" (click)="snav.toggle()">Cancel</button>
+                        </div>
+                        <!--end of button-row-->
+                    </form>
+                </mat-nav-list>
+
+                <!-- For Videos  -->
+                <mat-nav-list>
+                    <form class="example-form" [formGroup]="assetsForm" novalidate (ngSubmit)="onSubmit(assetsForm)" *ngIf=video>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Title" type="text" formControlName="title">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field formArrayName="keywords" class="example-full-width" floatLabel=always *ngFor="let keyword of keywords.controls;let idx=index">
+                                <input matInput placeholder="Keyword" type="text" formControlName='{{idx}}'>
+                            </mat-form-field>
+                            <button type="button" mat-icon-button color="primary" (click)=" addField()"><mat-icon color="warn">add</mat-icon></button>
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Location" type="text" formControlName="location">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Language" type="text" formControlName="language">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Duration (in Minutes)" type="number" formControlName="duration">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <!-- <mat-list-item>
+          <mat-form-field  class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Date" type="text" formControlName="uploaded_date">
+          </mat-form-field>  
+      </mat-list-item> -->
+                        <mat-list-item>
+                            <mat-form-field class="example-full-width" floatLabel=always>
+                                <input matInput placeholder="Size (in MB)" type="number" formControlName="size">
+                            </mat-form-field>
+                        </mat-list-item>
+
+                        <div class="button-row">
+                            <button mat-raised-button type="submit" color="primary" (click)="snav.toggle()">Save</button>
+                            <button mat-raised-button type="button" color="accent" (click)="snav.toggle()">Cancel</button>
+                        </div>
+                        <!--end of button-row-->
+                    </form>
+                </mat-nav-list>
+
+            </mat-sidenav>
+            <mat-sidenav-content>
+              <p *ngFor="let uploadedFile of uploadedFiles | groupBy : 'uploaded_date_string' ;let i = index">
+                    {{uploadedFile.key}}
+                    <mat-card *ngFor="let item of uploadedFile.value; let j = index">
+                        <mat-card-content>
+                            {{item.title}}
+                            <mat-icon class="example-icon" color="primary">info</mat-icon>
+                            <mat-icon class="example-icon" color="primary" (click)="toggleSideNav(item,j)">loyalty</mat-icon>
+                        </mat-card-content>
+                    </mat-card>
+                </p>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>
+<!--end of basic-container-->

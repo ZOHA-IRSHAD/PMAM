@@ -1,0 +1,14 @@
+<span style="margin-left:70px;font-weight:bold">Rename</span><br><br>
+<!-- <mat-card> -->
+<form [formGroup]="renameFolder" class="rename-form" novalidate (ngSubmit)="onRename(renameFolder)">
+    <mat-form-field class="rename-field">
+        <input matInput formControlName="folder_name" required>
+        <mat-error *ngIf="renameFolder.get('folder_name').invalid && renameFolder.get('folder_name').touched">
+            Enter Value
+        </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="!renameFolder.valid">Ok</button>
+    <button mat-raised-button color="accent" (click)="onClickCancel()">Cancel</button>
+</form>
+<!-- </mat-card> -->
+<!-- [value]="data.asset_title"  -->

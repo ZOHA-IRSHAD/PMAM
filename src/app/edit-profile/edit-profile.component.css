@@ -1,0 +1,106 @@
+ .basic-container{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   
+} 
+
+.contact-form,.email-form,.editProfile-form {
+  min-width: 150px;
+  max-width: 800px;
+  width: 100%;
+  
+} 
+
+.contact-full-width,.email-full-width,.editProfile-full-width {
+  width: 100%;
+}
+
+.edit-card{
+   margin-top: 150px;
+   background-color: #EEEEEE; 
+} 
+
+.contact-email-card{
+  background-color: #EEEEEE; 
+
+}
+
+.profile-pic {
+    border-radius: 50%;
+    height: 130px;
+    width: 130px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    vertical-align: middle;
+    text-align: center;
+    color: transparent;
+    transition: all .3s ease;
+    text-decoration: none;
+    margin: 1em auto;
+    /* background-color: transparent; */
+    /* background-image: url('assets/ic_account_circle_black_24px.svg') */
+    
+}
+
+.text{
+    font-weight: normal;
+}
+
+a{
+    text-decoration: underline !important;
+    color: #01579B;
+    font-family: 'Quicksand';
+    font-size: 15px;
+    cursor: pointer;
+}
+.remove{
+    text-decoration: underline !important;
+    color: #01579B;
+    font-family: 'Quicksand';
+    font-size: 15px;
+    cursor: pointer;
+    float: right;
+}
+.profile-pic:hover {
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: #fff;
+    transition: all .3s ease;
+    text-decoration: none;
+}
+
+.profile-pic span {
+    display: inline-block;
+    padding-top: 3em;
+    padding-bottom: 3em; 
+}
+
+.my-drop-zone {
+    border: dotted 3px #01579B;   
+    color:#01579B;
+    font-family: "Quicksand";
+    font-size: 15px;
+    margin-top: 50px;
+}
+
+.nv-file-over {
+    border: dotted 3px #01579B; 
+} /* Default class applied to drop zones on over */
+
+/* .another-file-over-class {
+   border: dotted 3px green;
+}
+  */
+html, body {
+   height: 100%; 
+}
+ 
+.selectFile{
+   text-align: center;
+} 
+span{
+    font-weight: bold;
+  }

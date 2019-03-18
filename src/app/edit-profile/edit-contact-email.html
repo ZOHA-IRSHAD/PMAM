@@ -1,0 +1,71 @@
+<div class="mat-app-background basic-container">
+    <mat-card class="contact-email-card">
+        <form class="contact-form" [formGroup]="editForm" novalidate (ngSubmit)="onEditContact(editForm);isClickedOnce=!isClickedOnce;"
+            *ngIf="data.option == 'phone_number'">
+            <mat-form-field class="contact-full-width" floatLabel=always>
+                <input matInput placeholder="Old Contact" type="text" formControlName="old_value" pattern="[0-9]*">
+                <mat-icon matPrefix color="primary">phone</mat-icon>
+                <mat-error *ngIf="editForm.get('old_value').invalid && editForm.get('old_value').touched">
+                    Please enter valid Number
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="contact-full-width" floatLabel=always>
+                <input matInput placeholder="New Contact" type="text" formControlName="new_value" pattern="[0-9]*">
+                <mat-icon matPrefix color="primary">phone</mat-icon>
+                <mat-error *ngIf="editForm.get('new_value').invalid && editForm.get('new_value').touched">
+                    Please enter valid Number
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="contact-full-width" floatLabel=always>
+                <input matInput placeholder="OTP" type="text" formControlName="otp">
+                <mat-icon matPrefix color="primary">textsms</mat-icon>
+            </mat-form-field>
+
+            <div class="button-row">
+                <button mat-raised-button type="submit" color="primary" [disabled]="!editForm.valid || isClickedOnce">
+          <span class="text">{{isClickedOnce ? 'Processing' : 'Save Changes'}} </span>
+          <mat-icon class="fa-spin" *ngIf="isClickedOnce">autorenew</mat-icon>
+        </button>
+                <button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+
+            </div>
+        </form>
+        <!-- Editing Email Id  -->
+        <form class="email-form" [formGroup]="editForm" novalidate (ngSubmit)="onEditEmail(editForm);isClickedOnce=!isClickedOnce;"
+            *ngIf="data.option == 'email_id'">
+            <mat-form-field class="email-full-width" floatLabel=always>
+                <input matInput placeholder="Old Email ID" type="text" formControlName="old_value" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">
+                <mat-icon matPrefix color="primary">email</mat-icon>
+                <mat-error *ngIf="editForm.get('old_value').invalid && editForm.get('old_value').touched">
+                    Please enter valid Email
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="email-full-width" floatLabel=always>
+                <input matInput placeholder="New Email ID" type="text" formControlName="new_value" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">
+                <mat-icon matPrefix color="primary">email</mat-icon>
+                <mat-error *ngIf="editForm.get('old_value').invalid && editForm.get('old_value').touched">
+                    Please enter valid Email
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="email-full-width" floatLabel=always>
+                <input matInput placeholder="OTP" type="text" formControlName="otp">
+                <mat-icon matPrefix color="primary">textsms</mat-icon>
+            </mat-form-field>
+
+            <div class="button-row">
+                <button mat-raised-button type="submit" color="primary" [disabled]="!editForm.valid || isClickedOnce">
+          <span class="text">{{isClickedOnce ? 'Processing' : 'Save Changes'}} </span>
+          <mat-icon class="fa-spin" *ngIf="isClickedOnce">autorenew</mat-icon>
+        </button>
+                <button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+
+            </div>
+        </form>
+    </mat-card>
+
+</div>
+<!--end of basic-container-->

@@ -1,0 +1,109 @@
+
+.date-section{
+  font-family: 'Quicksand';
+  color: #01579B;
+  margin-top: 7px;
+  margin-left: 5px;
+}
+
+.main-section{
+  margin-top:10px;
+  margin-right:5px;
+}
+
+.generic-section{
+  display: flex;
+  flex-flow: row wrap;
+}
+mat-card-content{
+  display: flex; 
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bolder;  
+}
+
+.button-section{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto;  
+  margin-right: 10px;
+}  
+mat-card-actions{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto;
+}
+
+.module-view{
+  margin-top: 10px;
+  margin-left: 10px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end;
+  min-width: 25%; 
+  max-width: 28%;    
+} 
+
+.module-view mat-card-header{
+  width:100%;
+} 
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.example-full-width {
+  font-size: 15px; 
+  font-family: 'Quicksand';
+  font-weight: bold;
+  margin-left: 10px;
+} 
+
+@media (max-width: 959px){
+  .module-card{
+    max-width: 100%;
+  }
+} 
+
+
+.empty-card{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   margin-top: 15%;
+}  
+
+p{
+  font-weight: normal;
+  color: black; 
+}
+
+.result-section{
+  text-align: center;
+}
+
+@media (max-width: 959px){
+  .module-view{
+    max-width: 100%;
+  }
+} 
+
+@media (max-width: 959px){
+  .button-section{
+    max-height: 100%;
+  }
+} 
+
+.empty-folder{
+    height: 50px;
+    width: 50px;
+    padding-left: 50%;
+}     

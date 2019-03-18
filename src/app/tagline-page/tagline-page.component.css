@@ -1,0 +1,105 @@
+.mat-app-background-first-slide{
+    background-image:url("../../assets/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    padding:14.5%;
+}
+
+.mat-app-background-second-slide{
+    height: auto !important;
+    background-image:url("../../assets/second_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.color-me-white{
+    color:white;
+}
+
+.reduce-my-size{
+    height:320px;
+}
+
+.example-card {
+    background-color:gray;
+    color:white;
+  margin-left:5.5%;
+  margin-top:3%;
+  margin-bottom:3%;
+  max-width: 300px;
+  float:left;
+   font-family: 'Quicksand','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+   
+}
+
+.pad-me-little{
+    padding:20px 0 0 5px;
+}
+
+.change-my-font{
+    font-size: 2em;
+    font-family: 'Quicksand','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.increase-my-size{
+    font-size:75px;
+}
+
+.align-me-to-center{
+    text-align:center;
+}
+
+.mat-app-background-third-slide{
+    background-image:url("../../assets/third_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding:5%;
+}
+#background-image-for-modal{
+    background-image:url("../../assets/background_modal.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.i-dont-want-to-be-huge{
+    font-size: 1em;
+}
+
+.go-right{
+    float:right;
+}
+
+ .sign-in {
+  vertical-align: middle !important;
+}
+
+.example-spacer {
+  display:flex;
+  flex: 5 5 auto;
+} 
+.registration-form {
+  /* width: 150px;*/
+  max-width: 500px; 
+  width: 100%;
+}
+.full-width{
+    text-align:center;
+    width:100%;
+}
+.align-me-to-center{
+    text-align:center;
+}
+
+span a{
+  text-decoration: underline !important;
+}
+.go-right{
+  float:right;
+}
+
+.go-left{
+  float:left;
+}
+
+.change-my-font{
+    font-family: 'Quicksand','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

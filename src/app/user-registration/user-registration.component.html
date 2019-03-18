@@ -1,0 +1,114 @@
+<div class="mat-app-background basic-container">
+  <simple-notifications [options]="options"></simple-notifications>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Registration Form </h3>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="example-form" [formGroup]="registrationForm" novalidate (ngSubmit)="onSubmit(registrationForm);isClickedOnce=!isClickedOnce;">
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput placeholder="First Name" formControlName="firstname" required maxlength="25">
+          <mat-error *ngIf="registrationForm.get('firstname').invalid && registrationForm.get('firstname').touched">
+            Please enter a Valid Name
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Last Name" formControlName="lastname" maxlength="25">
+          <mat-error *ngIf="registrationForm.get('lastname').invalid && registrationForm.get('lastname').touched">
+            Please enter a Valid Name
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Email" formControlName="email_id" required pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">
+          <mat-error *ngIf="registrationForm.get('email_id').invalid && registrationForm.get('email_id').touched">
+            Please enter the Valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Date of Birth" [matDatepicker]="picker" formControlName="date_of_birth" [min]="minDate" [max]="maxDate"
+            required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+          <mat-error *ngIf="registrationForm.get('date_of_birth').invalid && registrationForm.get('date_of_birth').touched">
+            Please enter Date Of Birth
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput placeholder="Contact" type="text" #contact maxlength="10" minlength="10" maxLength="10" required placeholder="Phone Number"
+            formControlName="phone_number">
+          <mat-hint align="end">{{contact.value.length}} / 10</mat-hint>
+          <mat-error *ngIf="registrationForm.get('phone_number').invalid && registrationForm.get('phone_number').touched">Please enter the valid Phone Number
+          </mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field class="example-full-width" floatLabel=always>
+        <textarea matInput placeholder="Address" formControlName="address" required></textarea>
+        <mat-error *ngIf="registrationForm.get('address').invalid && registrationForm.get('address').touched">
+          please enter Address
+        </mat-error>
+      </mat-form-field> -->
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <mat-select placeholder="Country" formControlName="country" required>
+            <mat-optgroup *ngFor="let group of countries" [label]="group.type" [disabled]="group.disabled">
+              <mat-option *ngFor="let country of group.country" [value]="country.name">
+                {{ country.name }}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput type="password" placeholder="Password" minlength="8" formControlName="password" required pattern="(?=^.{8,16}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$"
+            validateEqual="Confirmpassword" reverse="true">
+          <mat-error *ngIf="registrationForm.get('password').invalid && registrationForm.get('password').touched">
+            Password must contain atleast 8 characters,1 upper case,1 lower case,1 numerical,1 special character
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <input matInput type="password" placeholder="ConfirmPassword" formControlName="Confirmpassword" required validateEqual="password"
+            reverse="false">
+          <mat-error *ngIf="registrationForm.get('Confirmpassword').invalid || !(registrationForm.get('Confirmpassword').pristine && !registrationForm.submitted)">
+            Password mismatch
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" floatLabel=always>
+          <mat-select placeholder="Security Questions" formControlName="security_question" required>
+            <mat-option *ngFor="let question of questions" [value]="question.que">
+              {{ question.que }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" *ngIf="registrationForm.get('security_question').valid">
+          <input matInput placeholder="Answer" formControlName="security_answer" required>
+          <mat-error *ngIf="registrationForm.get('security_answer').invalid && registrationForm.get('security_answer').touched">
+            Please enter Valid Answer
+          </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox color="primary" formControlName="select_agrrement" required>I accept terms and conditions in this aggreement</mat-checkbox>
+        <mat-card-actions>
+          <div class="button-row">
+            <button mat-raised-button type="submit" color="primary" [disabled]="!registrationForm.valid || isClickedOnce">
+          <span>{{isClickedOnce ? 'Registering' : 'Register'}} </span>
+          <mat-icon class="fa-spin" *ngIf="isClickedOnce">autorenew</mat-icon>
+        </button>
+            <a routerLink="">
+          <button mat-raised-button color="accent">Cancel</button>
+        </a>
+          </div>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

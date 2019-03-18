@@ -1,0 +1,132 @@
+.date-section,.custom-folder{
+  font-family: 'Quicksand';
+  color: #01579B;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+.module-view{
+  margin-top: 10px;
+  margin-left: 20px;  
+  margin-bottom: 7px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end;
+  min-width: 25%;    
+  max-width: 25%;
+
+}
+
+.module-view mat-card-header{
+  width:100%;
+} 
+
+vg-player{
+  height: 40px;
+  display: flex; 
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bolder;  
+}
+
+.main-section{
+  margin-top:10px;
+  margin-right:10px;
+}
+
+.button-section{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto;  
+  margin-right: 10px;
+}  
+
+mat-card-actions{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto; 
+}
+
+mat-checkbox{
+  flex: 1 1 auto;
+}
+
+.example-full-width {
+  font-size: 15px; 
+  font-family: 'Quicksand';
+  font-weight: bold;
+  margin-left: 10px;
+} 
+
+.empty-card{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   margin-top: 15%;
+}  
+
+.audio-section,.new-folder-section{
+  display: flex;
+  flex-flow: row wrap;
+} 
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.module-view-folder{
+  margin-top:15px;
+  margin-left: 30px;   
+  margin-bottom: 7px; 
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end; */
+  max-width: 17%;
+  min-width: 17%;    
+}
+
+
+mat-card-content img{
+  height: 50px;
+  width: 50px;   
+} 
+
+.module-view-folder mat-card-header,.module-view-folder mat-card-title,.module-view-folder mat-card-content{
+  display: flex;  
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;  
+  font-size: 15px;
+  font-family: "Quicksand";
+}
+
+.icon{
+   color: #F9A825; 
+}
+
+.empty-folder{
+    height: 50px;
+    width: 50px;
+    padding-left: 50%;
+}      
+
+ @media (max-width: 959px){
+  .module-view{
+    max-width: 100%;
+  }
+}  
+
+@media (max-width: 959px){
+  .module-view-folder{
+    max-width: 100%;
+  }
+}

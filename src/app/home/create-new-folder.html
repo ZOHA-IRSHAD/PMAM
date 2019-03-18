@@ -1,0 +1,12 @@
+<mat-grid-list cols="1" rowHeight=100px style="margin-top:10px">
+  <form class="newFolder" [formGroup]="folderForm" novalidate (ngSubmit)="onCreate(folderForm)">
+    <mat-form-field class="newFolder-full-width" hideRequiredMarker=false floatLabel=auto>
+      <input matInput placeholder="New Folder" type="text" formControlName="folder_name">
+      <mat-icon matPrefix>create_new_folder</mat-icon>
+    </mat-form-field>
+    <div class="button-row">
+      <button mat-raised-button color="primary">Create</button>
+      <button mat-raised-button color="accent" (click)="onNoClick()">Cancel</button>
+    </div>
+  </form>
+</mat-grid-list>

@@ -1,0 +1,225 @@
+<div class="mat-app-background basic-container" style="min-height:530px;" *ngIf="results.length >= 1">
+  <div class="main-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+    <div class="result-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+      <p>
+        <span style="font-weight:bold">{{countResult}}</span> Results found
+      </p>
+    </div>
+    <div class="button-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.5%">
+      <button mat-icon-button color="primary" (click)="deleteMultipleResults()" matTooltip="Delete" matTooltipPosition="below">
+  <mat-icon aria-hidden="true">delete</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="downloadMultipleResults()" matTooltip="Download" matTooltipPosition="below">
+     <mat-icon aria-hidden="true">file_download</mat-icon>
+  </button>
+      <button mat-icon-button color="primary" (click)="changeView()" matTooltip="View" matTooltipPosition="below">
+     <mat-icon aria-hidden="true" *ngIf=viewModule>view_module</mat-icon>
+         <mat-icon aria-hidden="true" *ngIf=!viewModule>view_list</mat-icon> 
+  </button>
+    </div>
+  </div>
+  <!-- start of module-card  -->
+  <div class="advance-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap *ngIf=viewModule>
+    <mat-card class="module-view" *ngFor="let result of resultsCopy;let i = index">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null" [checked]="checkArray[i].isChecked" [(ngModel)]="checkArray[i].isChecked"
+            (ngModelChange)="pushAsset(result,i);">
+          </mat-checkbox>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="result.asset_type == 'video/mp4'">
+        <vg-player>
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+            <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+            <!-- <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display> -->
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+            <vg-track-selector></vg-track-selector>
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+            <vg-playback-button></vg-playback-button>
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+
+          <video [vgMedia]="media" #media id="{{i}}" preload="auto" crossorigin>
+            <source src="{{result.asset_link}}" type="{{result.asset_type}}">
+            <track kind="subtitles" label="Eng" src="http://static.videogular.com/assets/subs/pale-blue-dot.vtt" srclang="en" default>
+          </video>
+        </vg-player>
+      </mat-card-content>
+
+      <!-- <mat-card-content *ngIf="favorite.key == 'audio/mp3'">  -->
+      <vg-player style="height:40px" *ngIf="result.asset_type == 'audio/mp3'">
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+          <!-- <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display> -->
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+          <vg-mute></vg-mute>
+          <vg-playback-button></vg-playback-button>
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <audio #media [vgMedia]="media" id="{{i}}" preload="auto">
+          <source src="{{result.asset_link}}" type="{{result.asset_type}}">
+        </audio>
+      </vg-player>
+
+      <!-- </mat-card-content>  -->
+      <img mat-card-image src="{{result.asset_link}}" (click)="openViewer(result,i)" *ngIf="result.asset_type == 'image/png' || result.asset_type == 'image/jpg' || result.asset_type == 'image/jpeg'"
+        style="height:200px;" />
+      <mat-card-actions>
+        <span>{{result.title}}</span>
+        <mat-icon (click)="getSearchDetails(result.uri,result.favourite_status,i)" *ngIf="result.favourite_status  == 'not-yet'">favorite_border</mat-icon>
+        <mat-icon (click)="getSearchDetails(result.uri,result.favourite_status,i)" *ngIf="result.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+          <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+          <button mat-menu-item (click)="downloadResult(result.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+          <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+          <!--end of mat-menu-->
+          <button mat-menu-item (click)="removeResult(result.uri,i)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+          <button mat-menu-item (click)="openRenameDialog(result)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+          <button mat-menu-item (click)="openDetails(result)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+        </mat-menu>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <!-- end of module-view -->
+  <!-- </div>   -->
+  <!-- start of list-view -->
+  <div class="favorite-section" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="0.1%" fxLayoutWrap
+    *ngIf=!viewModule>
+    <mat-table [dataSource]="dataSource">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let result;let j=index">
+          <mat-checkbox #select color="primary" (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(select) : null" [checked]="checkArray[j].isChecked"
+            [(ngModel)]="checkArray[j].isChecked" (ngModelChange)="pushAsset(result,j);">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.title}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <!-- <ng-container matColumnDef="uploaded_date">
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result['com.techm.PersonalizedMAM.Pojo.AssetPojo']['uploaded_date']}} </mat-cell>
+      </ng-container> -->
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="asset_type">
+        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.asset_type}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="size">
+        <mat-header-cell *matHeaderCellDef> Size </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index"> {{result.size}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let result; let j=index">
+          <mat-icon (click)="getSearchDetails(result.uri,result.favourite_status,j)" *ngIf="result.favourite_status == 'not-yet'">favorite_border</mat-icon>
+          <mat-icon (click)="getSearchDetails(result.uri,result.favourite_status,j)" *ngIf="result.favourite_status  == 'yes'" color="warn">favorite</mat-icon>
+          <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openResult(result.asset_type,result,result.uri,j)">
+              <mat-icon>open_with</mat-icon>
+              <span>Open</span>
+            </button>
+            <!-- <button mat-menu-item>
+    <mat-icon>share</mat-icon>
+    <span>Share With</span>
+  </button> -->
+            <button mat-menu-item (click)="downloadResult(result.asset_link)">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+            <!-- <mat-menu #downloadMenu="matMenu">
+              <button mat-menu-item>
+        <span>Low (250px)</span>
+      </button>
+              <button mat-menu-item>
+        <span>Medium (360px)</span>
+      </button>
+              <button mat-menu-item (click)="SignOut()">
+        <span>High (720px)</span>
+      </button>
+            </mat-menu> -->
+            <!--end of mat-menu-->
+            <button mat-menu-item (click)="removeResult(result.uri,i)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+            <button mat-menu-item (click)="openRenameDialog(result)">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Rename</span>
+  </button>
+            <button mat-menu-item (click)="openDetails(result)">
+    <mat-icon>info</mat-icon>
+    <span>Details</span>
+  </button>
+          </mat-menu>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+    </mat-table>
+
+  </div>
+  <!-- end of list-view  -->
+</div>
+<div class="mat-app-background basic-container-sub" style="min-height:530px;" *ngIf="results.length == 0">
+  <p>
+    Your search did not match any documents.<br><br><br> Suggestions:
+
+    <br> Make sure that all words are spelled correctly.<br> Try different keywords.<br> Try more general keywords.<br>
+  </p>
+</div>

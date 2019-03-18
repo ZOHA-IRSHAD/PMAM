@@ -1,0 +1,55 @@
+<div class="current-plan" *ngIf="data.option=='storage_details'">
+  <h4 mat-dialog-title>Stoarge Details</h4>
+  <div mat-dialog-content>
+    <div class="example-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSourceAsset">
+
+        <!-- Asset Column -->
+        <ng-container matColumnDef="asset_type">
+          <mat-header-cell *matHeaderCellDef> Asset </mat-header-cell>
+          <mat-cell *matCellDef="let detail"> {{detail.asset_type}} </mat-cell>
+        </ng-container>
+
+        <!-- USed Space Column -->
+        <ng-container matColumnDef="storage_space">
+          <mat-header-cell *matHeaderCellDef> Used Space (in MB)</mat-header-cell>
+          <mat-cell *matCellDef="let detail"> {{(detail.storage_space/(1024*1024)) | number: '1.2-5' }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsAsset"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsAsset;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+  <!--end of mat-dialog-content-->
+  <div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+</div>
+<!--end of current-plan-->
+
+<div class="standard-plan" *ngIf="data.option !=='storage_details'">
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- Asset Column -->
+      <!-- <ng-container matColumnDef="S_No">
+        <mat-header-cell *matHeaderCellDef> S_No </mat-header-cell>
+        <mat-cell *matCellDef="let element_standard"> {{element_standard.s_no}} </mat-cell>
+      </ng-container> -->
+
+      <!-- USed Space Column -->
+      <ng-container matColumnDef="features">
+        <mat-header-cell *matHeaderCellDef>Features</mat-header-cell>
+        <mat-cell *matCellDef="let feature"> {{feature}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsPlans"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsPlans;"></mat-row>
+    </mat-table>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+  </div>
+</div>
+<!--end of standard-plan-->

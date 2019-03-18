@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+ /* @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";  */
+
+a {
+    text-decoration: none !important;
+    color:white;
+    font-size:10px;
+    cursor:pointer;
+}
+
+/* a:active{
+  color:red;
+} */
+
+span{
+  font-size: 15px;
+  font-family: "Quicksand";
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+ /* Non standard for WebKit */
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+
+}
+
+mat-option,mat-menu,mat-form-field{
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bold; 
+}
+
+label,mat-radio-button{
+  font-size: 12px;
+  font-family: "Quicksand";
+  color:grey;
+}
+h3,h4{
+  text-align: center;
+  color: #01579B;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bold; 
+
+}
+
+mat-table,mat-header-cell,mat-cell,p{
+  font-family: "Quicksand";
+  font-weight: bold;
+}
+
+mat-card-content{
+  text-align: center;
+  
+}
+
+h2,h5{
+  color:white; 
+  font-weight: normal;
+  cursor: pointer;
+}
+
+mat-icon{
+  font-weight: normal;
+  cursor: pointer;  
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8);
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}

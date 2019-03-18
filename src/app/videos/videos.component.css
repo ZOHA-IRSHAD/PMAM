@@ -1,0 +1,144 @@
+
+.date-section,.custom-folder{
+   color:#01579B;
+   margin-top: 7px;  
+   margin-left: 5px;  
+   /* display: flex; 
+   flex-flow: row wrap;  */
+   font-family: 'Quicksand';
+}
+.module-view{
+  margin-top: 10px;
+  margin-left: 5px; 
+  margin-bottom: 7px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end;
+  max-width: 29%;   
+  min-width: 20%; 
+
+}
+
+/* .match{
+  margin-left: 65px; 
+} */
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.list-view{
+  margin-left: 10px;
+  margin-right: 10px;  
+}
+
+.module-view mat-card-content{
+  display: flex; 
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bolder;  
+}
+
+
+.main-section{
+  margin-top:10px;
+  margin-right:10px;
+}
+
+.button-section{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto;  
+  max-height: 40px; 
+  margin-right: 10px;
+}  
+mat-card-actions{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto; 
+}
+.module-view mat-card-header{
+ width:100%;   
+
+} 
+
+
+.example-full-width {
+  font-size: 15px; 
+  font-family: 'Quicksand';
+  font-weight: bold;
+  margin-left: 10px;
+} 
+
+.empty-folder{
+    height: 50px;
+    width: 50px;
+    /* padding-left: 50%; */
+}  
+.module-view-folder{
+  margin-top:15px;
+  margin-left: 30px;   
+  margin-bottom: 7px; 
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end; */
+  max-width: 17%;
+  min-width: 17%;    
+}
+.module-view-folder mat-card-header,.module-view-folder mat-card-title,.module-view-folder mat-card-content{
+  display: flex;  
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;  
+  font-size: 15px;
+  font-family: "Quicksand";   
+}
+
+mat-card-content img{
+  height: 50px;
+  width: 50px;   
+} 
+
+.empty-card{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   margin-top: 15%;
+}  
+
+.video-section,.new-folder-section{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@media (max-width: 959px){
+  .module-view{
+    max-width: 100%;
+  }
+} 
+
+@media (max-width: 959px){
+  .module-view-folder{
+    max-width: 100%;
+  }
+} 
+  
+.empty-folder{
+    height: 50px;
+    width: 50px;
+    padding-left: 50%;
+}       
+
+.icon{
+   color: #F9A825; 
+}

@@ -1,0 +1,140 @@
+<div class="mat-app-background basic-container" style="min-height:550px;">
+  <div class="head-section" fxLayout="row" fxLayout.sm="row" fxLayout.xs="row" fxLayoutWrap>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <!-- <img src="assets/logo.png" height=150px width=150px> -->
+        <!-- <div fxShow="true" fxHide.gt-sm="true" fxLayoutWrap>  -->
+        <!-- <div *ngIf=opened> -->
+        <!-- style="position: absolute;left:15%;top:5%;" -->
+        <!-- </div>   -->
+        <span class="example-fill-remaining-space"></span>
+        <div>
+          <button mat-mini-fab color="warn">
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      </button>
+          <span>Personalized MAM</span>
+        </div>
+        <span class="example-spacer"></span>
+        <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmitGeneric(searchForm)">
+          <mat-form-field class="example-full-width" color="accent">
+            <input matInput class="form-control" placeholder="Search photos,videos,music and docs" formControlName="genricSearch" type="text">
+            <mat-icon class="cursor" matSuffix (click)="openDialogImage()">photo_camera</mat-icon>
+            <button type="submit" mat-icon-button matPrefix> 
+          <mat-icon class="cursor">search</mat-icon>
+        </button>
+          </mat-form-field> &nbsp;&nbsp;
+        </form>
+        <mat-form-field class="example-select" color="accent">
+          <mat-select placeholder="Advance Search" [(ngModel)]="selectedValue">
+            <!-- <mat-option></mat-option>      -->
+            <mat-option *ngFor="let option of advancedSearchOptions" [value]="option.value" (click)="openDialogAdvanceSearch(option.value)">
+              <img src="{{option.icon}}" /> &nbsp;{{option.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--end of mat-form-field-->
+        <!-- <button button="submit" mat-icon-button> 
+      <mat-icon aria-hidden="true" >search</mat-icon>
+    </button> -->
+
+        <div fxShow="true" fxHide.lt-md="true" class="toolbar-content">
+          <button mat-button (click)="openDialogFileUpload()">
+      <mat-icon aria-hidden="true">file_upload</mat-icon> File Upload
+    </button>
+          <button mat-button (click)="createFolder()">
+      <mat-icon aria-hidden="true">create_new_folder</mat-icon> New Folder
+    </button>
+          <button mat-button [matMenuTriggerFor]="userMenu">
+      <mat-icon aria-hidden="true">account_circle</mat-icon> {{userName}}
+    </button>
+          <mat-menu #userMenu="matMenu">
+            <a routerLink="/editProfile">
+      <button mat-menu-item>
+        <mat-icon aria-hidden="true" color="primary">edit</mat-icon>
+        <span>Edit Profile</span>
+      </button>
+    </a>
+            <a routerLink="/changePassword">
+      <button mat-menu-item>
+        <mat-icon aria-hidden="true" color="primary">lock</mat-icon>
+        <span>Change Password</span>
+      </button>
+      </a>
+            <a>
+      <button mat-menu-item (click)="SignOut()">
+        <mat-icon aria-hidden="true" color="primary">power_settings_new</mat-icon>
+        <span>Sign Out</span>
+      </button>
+     </a>
+          </mat-menu>
+          <!--end of mat-menu-->
+        </div>
+        <!--end of toolbar-content-->
+        <div fxShow="true" fxHide.gt-sm="true" fxLayoutWrap class="toolbar-content-smallscreen">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+       </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialogFileUpload()">
+          <mat-icon aria-hidden="true">file_upload</mat-icon>
+          <span>File Upload</span>
+        </button>
+            <button mat-menu-item (click)="createFolder()">
+          <mat-icon aria-hidden="true">create_new_folder</mat-icon>
+          <span>New Folder</span>
+        </button>
+            <button mat-menu-item [matMenuTriggerFor]="userMenu">
+          <mat-icon aria-hidden="true">account_circle</mat-icon>
+          <span>{{userName}}</span>
+        </button>
+          </mat-menu>
+          <!--end of mat-menu-->
+        </div>
+        <!--end of toolbar-content-smallscreen-->
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!--end of toolbar-->
+  </div>
+  <!--end of head-section-->
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="mobileQuery.matches ? 'false' : 'true'" class="example-sidenav"
+      [fixedInViewport]=false>
+      <mat-list>
+        <a routerLink="/home/myAssets" routerLinkActive="active" mat-list-item>
+          <mat-icon aria-hidden="true">storage</mat-icon>&nbsp;
+          <p>My Assets</p>
+        </a>
+        <mat-divider></mat-divider>
+        <a routerLink="/home/trash" mat-list-item>
+          <mat-icon aria-hidden="true">delete</mat-icon>&nbsp;
+          <p>Trash</p>
+        </a>
+        <mat-divider></mat-divider>
+        <a routerLink="/home/upgradePlans" routerLinkActive="active" mat-list-item>
+          <mat-icon aria-hidden="true">trending_up</mat-icon>&nbsp;
+          <p>Upgrade Plan</p>
+        </a>
+        <mat-divider></mat-divider>
+        <a routerLink="/home/feedback" routerLinkActive="active" mat-list-item>
+          <mat-icon aria-hidden="true">feedback</mat-icon>&nbsp;
+          <p>Feedback</p>
+        </a>
+        <mat-divider></mat-divider>
+        <a routerLink="/home/helpNsupport" routerLinkActive="active" mat-list-item>
+          <mat-icon aria-hidden="true">live_help</mat-icon>&nbsp;
+          <p>Help & Support</p>
+        </a>
+      </mat-list>
+
+    </mat-sidenav>
+    <!--end of mat-sidenav-->
+
+    <mat-sidenav-content> 
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    <!--end of mat-sidenav-content-->
+  </mat-sidenav-container>
+  <!--end of the mat-sidenav-container-->
+</div>
+<!--end of basic-container-->

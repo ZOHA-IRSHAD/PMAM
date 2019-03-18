@@ -1,0 +1,177 @@
+<div class="main">
+  <!-- <app-topbar></app-topbar>  -->
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Personalized MAM</span>
+      <span class="example-spacer"></span>
+      <div fxFlex fxShow=”true” fxHide.lt-md=”true”>
+        <a mat-button class="sign-in" (click)="openSignInDialog()">
+          <mat-icon aria-hidden="true">account_circle</mat-icon>
+          <span>Sign In</span>
+        </a>
+        <a mat-button class="sign-up sign-in" (click)="openSignUpPage()">
+          <mat-icon aria-hidden="true">account_box</mat-icon>
+          <span>Sign Up</span>
+        </a>
+        <a mat-button class="sign-up sign-in" (click)="openSignInDialog()">
+          <mat-icon aria-hidden="true">contacts</mat-icon>
+          <span>Contact Us</span>
+        </a>
+        <a mat-button class="sign-up sign-in" (click)="openSignInDialog()">
+          <mat-icon aria-hidden="true">view_list</mat-icon>
+          <span>Features</span>
+        </a>
+      </div>
+      <div fxFlex fxShow=”true” fxHide.gt-sm=”true”>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon aria-hidden="true">more_vert</mat-icon>
+    </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item>
+        <mat-icon aria-hidden="true">account_circle</mat-icon>
+        <span>Sign In</span>
+      </button>
+          <button mat-menu-item>
+        <mat-icon aria-hidden="true">account_box</mat-icon>
+        <span>Sign Up</span>
+      </button>
+          <button mat-menu-item>
+        <mat-icon aria-hidden="true">contacts</mat-icon>
+        <span>Contact Us</span>
+      </button>
+        </mat-menu>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div flex class="mat-app-background-first-slide basic-container">
+    <span class="color-me-white change-my-font">
+    <mat-icon aria-hidden="true" id="apply-padding-to-me" class="increase-my-size">important_devices</mat-icon><br>All your Memories in one place.<br>
+    <button mat-raised-button color="primary" (click)="openSignInDialog()">Click to get Started</button>
+  </span>
+  </div>
+  <div flex class="mat-app-background-second-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <span class="color-me-white change-my-font align-me-to-center">
+  Plans Available:  
+</span>
+  </div>
+  <div flex class="mat-app-background-second-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar><button mat-fab mat-raised-button matTooltip="Click to Add" style="float:left" color="primary">+</button></div>
+        <div class="pad-me-little">
+          <mat-card-title>Standard</mat-card-title>
+        </div>
+      </mat-card-header>
+      <img mat-card-image src="../../assets/standard.jpg" class="reduce-my-size" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          The Standard Plan is to get you a feel of our application. You can use the basic features which make up PMAM. With a limited
+          amount of storage and is completely Free!
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="openDialogStandard()">View Features</button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar><button mat-fab mat-raised-button style="float:left" matTooltip="Click to Add" color="primary">+</button></div>
+        <div class="pad-me-little">
+          <mat-card-title>Premium</mat-card-title>
+        </div>
+      </mat-card-header>
+      <img mat-card-image src="../../assets/premium.jpeg" class="reduce-my-size" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          The premium plan gets you some additional features of our service at a bit of cost. There are some interesting add-ons which
+          make your experience more personalized.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+
+        <button mat-raised-button color="primary" (click)="openDialogPremium()">View Features</button>
+
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar><button mat-fab mat-raised-button style="float:left" matTooltip="Click to Add" color="primary">+</button></div>
+        <div class="pad-me-little">
+          <mat-card-title>Gold</mat-card-title>
+        </div>
+      </mat-card-header>
+      <img mat-card-image src="../../assets/gold.png" class="reduce-my-size" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          The grandmaster of all plans, which gives you full control over all the features which PMAM has to offer. You will gain access
+          to the more complex features of our Application.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+
+        <button mat-raised-button color="primary" (click)="openDialogGold()">View Features</button>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div flex class="mat-app-background-fourth-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <span class="change-my-font align-me-to-center">
+  Eye Catching Features:  
+</span>
+  </div>
+  <div flex class="mat-app-background-third-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <mat-card>
+      <mat-card-content>
+        <p>
+          <img src="../../assets/document_types.png" alt="Photo of a Shiba Inu">
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <p class="change-my-font">
+          Any asset of yours, in any format, be it a document, image, APK, you name it, and we store them all!
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div flex class="mat-app-background-third-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <mat-card>
+      <mat-card-content>
+        <p class="change-my-font">
+          Our starting plan comes with a storage space of 7 GB. Access your account from any system or device.
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <p>
+          <img src="../../assets/databases.jpg" alt="Photo of a Shiba Inu" height="200px" width="200px">
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+  <div flex class="mat-app-background-third-slide basic-container" fxLayout="row" fxLayout.lt-md="column">
+    <mat-card>
+      <mat-card-content>
+        <p>
+          <img src="../../assets/ai.jpg" alt="Photo of a Shiba Inu" height="200px" width="200px">
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <p class="change-my-font">
+          Our intelligent Software auto-segregates your assets into our personalized buckets. All you have to do, is upload!
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span class="align-me-to-center">© Tech Mahindra Pvt Ltd 2018</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>

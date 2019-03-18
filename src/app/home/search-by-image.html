@@ -1,0 +1,31 @@
+<h3>Search By Image</h3>
+<simple-notifications [options]="options"></simple-notifications>
+
+<div style=height:150px; ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+    [uploader]="uploader" class="well my-drop-zone">
+    <h4> Drag and drop your Assets here</h4>
+
+    <h3>Or</h3>
+    <div class="selectFile">
+        <button type="button" mat-raised-button (click)="imgFileInput.click()">Browse your Computer</button>
+        <input hidden type="file" #imgFileInput type="file" ng2FileSelect [uploader]="uploader" (change)="onFileSelected($event)"/>
+    </div>
+    <!--end of selectFile-->
+</div>
+<!--end of my-drop-zone-->
+ <br> 
+<div class="table1" *ngIf="hasBaseDropZoneOver || hasFileSelected">
+    <div class="example-container mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource">
+
+            <!-- Asset Name Column -->
+            <ng-container matColumnDef="Name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let item"> {{item?.file?.name}} </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsFile"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsFile;"></mat-row>
+        </mat-table>
+    </div>
+</div>
+<!--end of table-->            

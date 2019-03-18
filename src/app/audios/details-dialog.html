@@ -1,0 +1,28 @@
+<div mat-dialog-content>
+    <!-- <span class="key">Type</span><span class="value">{{info?.asset_type}}</span><br>
+    <span class="key">Size</span><span class="value">{{info?.size}}</span><br>
+    <span class="key">Location</span><span class="value">{{info?.directory}}</span><br>
+    <span class="key">Owner</span><span class="value">{{info?.owner}}</span> -->
+    <table border="0" cellspacing="2" cellpadding="5">
+        <tr>
+            <td class="key">Type
+                <td class="value">{{info?.asset_type}}
+        </tr>
+        <tr>
+            <td class="key">Size
+                <td class="value">{{info?.size}}
+        </tr>
+        <tr>
+            <td class="key">Location
+                <td class="value">{{info?.directory}}
+        </tr>
+        <tr>
+            <td class="key">Owner
+                <td class="value">{{info?.owner}}
+        </tr>
+
+    </table>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+</div>

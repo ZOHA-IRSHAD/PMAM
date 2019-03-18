@@ -1,0 +1,32 @@
+.cursor
+{
+  cursor: pointer;
+}
+
+
+.my-drop-zone {
+    border: dotted 3px #01579B;   
+    color:#01579B;
+    font-family: "Quicksand";
+    font-size: 15px;
+    margin-top: 50px;
+}
+
+.nv-file-over {
+    border: dotted 3px #01579B; 
+} /* Default class applied to drop zones on over */
+
+/* .another-file-over-class {
+   border: dotted 3px green;
+}
+  */
+html, body {
+   height: 100%; 
+}
+ 
+.selectFile{
+   text-align: center;
+} 
+span{
+    font-weight: bold;
+}

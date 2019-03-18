@@ -1,0 +1,31 @@
+<div class="mat-app-background basic-container" style="min-height:550px;">
+  <div class="details-section" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%">
+    <mat-card class="details-card">
+      <mat-card-title>
+        <h4>Total Storage/Used Space (in GB)</h4>
+      </mat-card-title>
+      <mat-card-content>
+        <div style="display: block">
+          <canvas baseChart [colors]="chartColors" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)" *ngIf="pieChartData.length > 0">
+          </canvas>
+        </div><br/><br/>
+        <button mat-raised-button (click)="openDialogDetails('storage_details')">View Details</button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="details-card" *ngFor="let plan of plans">
+      <mat-card-title>
+        <h4>{{plan.package_name}}</h4>
+      </mat-card-title>
+      <mat-card-content>
+        <img src="assets/standard.jpg" />
+        <!-- <p>{{plan.status}}</p> -->
+        <br><br>
+        <button mat-raised-button color="primary" *ngIf="plan.package_name !== subs">Upgrade</button><br><br>
+        <button mat-raised-button (click)="openDialogDetails(plan.id)">View Details</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!--end of basic-container-->

@@ -1,0 +1,34 @@
+<div class="mat-app-background basic-container" style="min-height:550px;">
+  <mat-card>
+    <simple-notifications [options]="options"></simple-notifications>
+    <form [formGroup]="feedbackForm" class="feedback-form" novalidate (ngSubmit)="onSend(feedbackForm);">
+      <mat-form-field class="main-section" floatLabel=always>
+        <mat-select placeholder="Feedback Options" [(ngModel)]="selectedValue" formControlName="feedback_issue" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let feedback of feedbacks" [value]="feedback.issue">
+            {{feedback.issue}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="feedbackForm.get('feedback_issue').hasError('required')">Please choose an issue</mat-error>
+      </mat-form-field>
+      <!-- <p> Selected value: {{selectedValue}} </p><br> -->
+      <mat-form-field class="main-section" floatLabel=always>
+        <textarea matInput placeholder="Feedback Description" formControlName="feedback_description" required></textarea>
+        <mat-error *ngIf="feedbackForm.get('feedback_description').hasError('required')">Please choose an issue</mat-error>
+      </mat-form-field>
+
+      <rating formControlName="rating" style="float:left;" [readonly]="false" fullIcon="★" emptyIcon="☆" [titles]="['Bad', 'Mediocre' , 'Good', 'Excellent', 'Awesome']">
+      </rating>
+
+      <br><br><br><br>
+      <div class="button-row">
+        <button mat-raised-button color="primary" [disabled]="!feedbackForm.valid">Send</button>&nbsp;&nbsp;
+        <a routerLink="/home/myAssets">
+      <button mat-raised-button color="accent">Cancel</button>
+      </a>
+      </div>
+      <!--end of button-row-->
+    </form>
+  </mat-card>
+</div>
+<!--end of basic-container-->

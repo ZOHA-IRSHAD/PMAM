@@ -1,0 +1,120 @@
+
+.date-section,.new-folder-section{
+  font-family: 'Quicksand';
+  color: #01579B;
+  margin-top: 7px;
+  margin-left: 5px;
+}
+
+.main-section{
+  margin-top:10px;
+  margin-right:5px;
+  
+}
+
+.favorite-section{
+  display: flex;
+  flex-flow: row wrap;
+}
+mat-card-content{
+  display: flex; 
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bolder;  
+}
+
+.button-section{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto;  
+}  
+mat-card-actions,.module-view-folder mat-card-actions{
+  display: flex; 
+  flex-direction: row;
+  justify-content: flex-end;      
+  flex: 1 1 auto; 
+}
+.module-view{
+  margin-top: 10px;
+  margin-left: 10px;  
+   margin-bottom: 7px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end;
+   /* flex: 20%;   */
+    min-width: 25%; 
+      max-width: 28%;    
+} 
+
+.module-view mat-card-header{
+  width:100%;
+} 
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.example-full-width {
+  font-size: 15px; 
+  font-family: 'Quicksand';
+  font-weight: bold;
+  margin-left: 10px;
+} 
+
+@media (max-width: 959px){
+  .module-view{
+    max-width: 100%;
+  }
+} 
+ 
+
+.empty-folder{
+    height: 50px;
+    width: 50px;
+    padding-left: 50%;
+}       
+
+.basic-container-sub{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}  
+
+.module-view-folder{
+  margin-top:30px;
+   margin-left: 1px;  
+  margin-bottom: 7px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  align-content: flex-end;
+  max-width: 20%;
+  min-width: 20%;    
+}
+
+.module-view-folder mat-card-content{
+  display: flex; 
+  flex-direction: row;  
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-family: "Quicksand";
+  font-weight: bolder;  
+}
+
+.new-folder{
+  height: 50px;
+  width: 50px;   
+} 
+
+.icon{
+   color: #F9A825; 
+}

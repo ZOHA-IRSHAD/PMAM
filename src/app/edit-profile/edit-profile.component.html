@@ -1,0 +1,67 @@
+<div class="mat-app-background basic-container">
+  <simple-notifications [options]="options"></simple-notifications>
+  <mat-card class="edit-card">
+    <form class="editProfile-form" [formGroup]="profileForm" novalidate (ngSubmit)="onEdit(profileForm);isClickedOnce=!isClickedOnce;">
+
+      <a class="profile-pic" (click)="openDialogProfile()">
+        <div class="profile-pic" [style.background-image]="profilePic">
+          <!-- <div class="profile-pic" [style.background-image]="profilePic ? 'url("' + profilePic + '")' : url('assets/ic_account_circle_white_24px.svg')" > -->
+          <mat-icon>photo_camera</mat-icon>
+          <span>Change Profile Photo</span>
+        </div>
+      </a>
+
+      <mat-form-field class="editProfile-full-width" floatLabel=always>
+        <input matInput placeholder="First Name" type="text" formControlName="firstname">
+        <mat-icon matPrefix color="primary">text_format</mat-icon>
+        <mat-error *ngIf="profileForm.get('firstname').invalid && profileForm.get('firstname').touched">
+          Enter valid Name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="editProfile-full-width" floatLabel=always>
+        <input matInput placeholder="Last Name" type="text" formControlName="lastname">
+        <mat-icon matPrefix color="primary">text_format</mat-icon>
+        <mat-error *ngIf="profileForm.get('lastname').invalid && profileForm.get('lastname').touched">
+          Enter valid Name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="editProfile-full-width" floatLabel=always>
+        <input matInput placeholder="Date of Birth" [matDatepicker]="picker" formControlName="date_of_birth" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="year" [startAt]="startDate" color="primary"></mat-datepicker>
+        <mat-error *ngIf="profileForm.get('date_of_birth').invalid && profileForm.get('date_of_birth').touched">
+          Please enter Date Of Birth
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="editProfile-full-width" floatLabel=always>
+        <input matInput placeholder="Contact" type="text" formControlName="phone_number" readonly>
+        <a matSuffix (click)="editContact('phone_number')">Edit</a>
+        <mat-icon matPrefix color="primary">phone</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="editProfile-full-width" floatLabel=always>
+        <input matInput placeholder="Email ID" type="email" formControlName="email_id" readonly>
+        <a matSuffix (click)="editEmail('email_id')">Edit</a>
+        <mat-icon matPrefix color="primary">email</mat-icon>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-raised-button type="submit" color="primary" [disabled]="!profileForm.valid || isClickedOnce">
+          <span class="text">{{isClickedOnce ? 'Processing' : 'Save Changes'}} </span>
+          <mat-icon class="fa-spin" *ngIf="isClickedOnce">autorenew</mat-icon>
+        </button>
+        <a routerLink="/home/myAssets">
+      <button mat-raised-button color="accent">Cancel</button>
+    </a>
+      </div>
+    </form>
+    <!--end of editProfile-form-->
+    <br><br>
+    <!--end of button-row-->
+  </mat-card>
+  <!--end of card-->
+</div>
+<!--end of basic-container-->

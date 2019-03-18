@@ -1,0 +1,80 @@
+<h3>File Upload</h3>
+<simple-notifications [options]="options"></simple-notifications>
+
+<div style=height:150px; ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+    [uploader]="uploader" class="well my-drop-zone">
+    <h4> Drag and drop your Assets here</h4>
+
+    <h3>Or</h3>
+    <div class="selectFile">
+        <button type="button" mat-raised-button (click)="imgFileInput.click()">Browse your Computer</button>
+        <input hidden type="file" #imgFileInput type="file" ng2FileSelect [uploader]="uploader" (change)="onFileSelected($event)"
+            multiple />
+    </div>
+    <!--end of selectFile-->
+</div>
+<!--end of my-drop-zone-->
+<br>
+
+<div class="table1" *ngIf="hasBaseDropZoneOver || hasFileSelected">
+    <div class="example-container mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource">
+
+            <!-- Asset Name Column -->
+            <ng-container matColumnDef="Name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let item"> {{item?.file?.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Asset Size Column -->
+            <ng-container matColumnDef="Size">
+                <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+                <mat-cell *matCellDef="let item"> {{item?.file?.size/1024/1024 | number:'.2'}} MB </mat-cell>
+            </ng-container>
+
+            <!-- Asset Action Column -->
+            <ng-container matColumnDef="Action">
+                <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    <button mat-icon-button (click)="remove(item)" color="primary" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                <mat-icon aria-hidden="true">delete</mat-icon>
+                           </button>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Asset Status Column -->
+            <ng-container matColumnDef="Status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    <span *ngIf="item.isSuccess"><mat-icon color="primary" aria-hidden="true">done</mat-icon></span>
+                    <span *ngIf="item.isCancel"><mat-icon color="primary" aria-hidden="true">cancel</mat-icon></span>
+                    <span *ngIf="item.isError"><mat-icon color="primary" aria-hidden="true">error</mat-icon>
+                              <!-- <p style="color:black;cursor:pointer" (click)="tryAgain()">Try Again</p> -->
+                              </span>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumnsFile"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsFile;"></mat-row>
+        </mat-table>
+    </div>
+</div>
+<!--end of table-->
+
+
+
+
+<br><br><br>
+
+<div class="button-row">
+    <button mat-raised-button color="primary" (click)="uploadAllFiles()" [disabled]="!uploader.getNotUploadedItems().length || isClickedOnce">
+       <mat-icon *ngIf="!isClickedOnce" aria-hidden="true">file_upload</mat-icon> 
+       <span>{{isClickedOnce ? 'Uploading' : 'Upload'}} </span>
+      <mat-icon class="fa-spin" *ngIf="isClickedOnce">autorenew</mat-icon>
+   </button>
+    <button mat-raised-button color="accent" (click)="onClickCancel()">Cancel
+    </button>
+    <button mat-raised-button color="accent" (click)="tryAgain()" [disabled]=!enableTry>Try Again
+    </button>
+</div>
+<!--end of button-row-->
